@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fundamental Chemistry Catch-Up</title>
+<style>
+/* Layout: one column, sticky tab bar, five panels (Start, Timeline, Checklist, How to revise, Exam favourites). House style: Arial, cream paper, amber for "getting there", purple for HIGHER TIER, no red. */
+:root{
+  --paper:#FAF3E0; --card:#FFFDF6; --ink:#2B2A26; --muted:#6A6455; --line:#E2D6B8;
+  --accent:#1E5C68; --accent-soft:#DCEBEC;
+  --amber:#9A5B00; --amber-soft:#FBE7C2;
+  --green:#2C7449; --green-soft:#DCEFE2;
+  --ht:#62379A; --ht-soft:#EEE5F8;
+  --hol:#7A6A3A; --hol-soft:#F1E8CF;
+  --font:Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#1C1A16; --card:#26231D; --ink:#EFE9DA; --muted:#AAA290; --line:#3B362C;
+  --accent:#74C4D0; --accent-soft:#1D3438;
+  --amber:#F0B85A; --amber-soft:#3C2E12;
+  --green:#7DCB98; --green-soft:#1D3426;
+  --ht:#C7A8EE; --ht-soft:#2F2541;
+  --hol:#D8C48A; --hol-soft:#332C1A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#1C1A16; --card:#26231D; --ink:#EFE9DA; --muted:#AAA290; --line:#3B362C;
+  --accent:#74C4D0; --accent-soft:#1D3438;
+  --amber:#F0B85A; --amber-soft:#3C2E12;
+  --green:#7DCB98; --green-soft:#1D3426;
+  --ht:#C7A8EE; --ht-soft:#2F2541;
+  --hol:#D8C48A; --hol-soft:#332C1A; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.55;margin:0}
+a{color:var(--accent);font-weight:bold}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:820px;margin:0 auto;padding-inline:16px;padding-block:8px 48px}
+h1,h2,h3{text-wrap:balance;line-height:1.25;margin:0}
+h1{font-size:1.75rem}
+h2{font-size:1.35rem;margin-block:28px 10px;color:var(--accent)}
+h3{font-size:1.08rem}
+p{margin:0 0 12px}
+.lede{max-width:65ch}
+.small{font-size:.9rem;color:var(--muted)}
+.label{font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;font-weight:bold;color:var(--muted)}
+
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:2px solid var(--line);display:flex;gap:4px;overflow-x:auto;padding:8px 16px 0;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;font:inherit;font-weight:bold;font-size:.95rem;background:none;border:0;border-bottom:4px solid transparent;color:var(--muted);padding:10px 12px;cursor:pointer}
+.tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+.panel{padding-top:16px}
+
+.hero{display:grid;gap:14px;padding-block:20px 8px}
+.countdown{display:flex;flex-wrap:wrap;gap:10px}
+.count{background:var(--card);border:2px solid var(--line);border-radius:10px;padding:10px 14px;min-width:0;flex:1 1 200px}
+.count b{display:block;font-size:1.6rem;font-variant-numeric:tabular-nums;color:var(--accent)}
+.thisweek{background:var(--accent-soft);border-left:6px solid var(--accent);border-radius:8px;padding:14px 16px}
+.thisweek .label{color:var(--accent)}
+
+ol.steps{list-style:none;counter-reset:s;padding:0;margin:0;display:grid;gap:10px}
+ol.steps>li{counter-increment:s;display:grid;grid-template-columns:2.2rem 1fr;gap:10px;align-items:start}
+ol.steps>li::before{content:counter(s);width:2.2rem;height:2.2rem;border-radius:50%;background:var(--accent);color:var(--paper);display:grid;place-items:center;font-weight:bold}
+ol.steps>li>div{min-width:0;padding-top:.3rem}
+
+.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.res .item{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;min-width:0}
+.res .item p{margin:4px 0 0;font-size:.92rem;color:var(--muted)}
+
+.phase{margin-top:22px}
+.phase-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;border-bottom:2px solid var(--line);padding-bottom:6px}
+.phase-head .label{color:var(--accent)}
+.weeks{list-style:none;margin:0;padding:0}
+.week{display:grid;grid-template-columns:6.2rem 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.week .when{font-weight:bold;font-variant-numeric:tabular-nums;font-size:.92rem}
+.week .when span{display:block;font-weight:normal;color:var(--muted);font-size:.8rem}
+.week .what{min-width:0}
+.week .what p{margin:4px 0 0}
+.week.hol{background:var(--hol-soft);border-radius:6px;padding-inline:10px;border-bottom:0;margin-block:4px}
+.week.hol .when{color:var(--hol)}
+.week.now{background:var(--accent-soft);border-radius:6px;padding-inline:10px;border-bottom:0;box-shadow:inset 6px 0 0 var(--accent)}
+.week.exam{background:var(--ink);color:var(--paper);border-radius:6px;padding-inline:10px;margin-block:6px;border-bottom:0}
+.week.exam .when span{color:var(--paper);opacity:.8}
+.week.past{opacity:.55}
+.tag{display:inline-block;font-size:.75rem;font-weight:bold;padding:2px 8px;border-radius:99px;background:var(--accent-soft);color:var(--accent);margin:4px 4px 0 0;border:0;cursor:pointer;font-family:inherit}
+.tag.now{background:var(--accent);color:var(--paper)}
+
+.overall{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:8px}
+.bar{height:12px;border-radius:99px;background:var(--line);overflow:hidden;display:flex}
+.bar i{display:block;height:100%}
+.bar .g{background:var(--green)} .bar .a{background:var(--amber)}
+.key{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.88rem;color:var(--muted)}
+.key span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px;background:var(--c)}
+details.topic{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-top:10px}
+details.topic>summary{list-style:none;cursor:pointer;padding:14px 16px;display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-items:center}
+details.topic>summary::-webkit-details-marker{display:none}
+details.topic>summary h3{min-width:0}
+details.topic>summary .prog{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+details.topic>summary .bar{grid-column:1/-1;height:6px}
+details.topic[open]>summary{border-bottom:1px solid var(--line)}
+.tbody{padding:12px 16px 16px;display:grid;gap:14px}
+.learn{background:var(--paper);border-radius:8px;padding:12px 14px}
+.learn ul{margin:6px 0 0;padding-left:20px}
+.learn li{margin:3px 0}
+ul.checks{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+ul.checks li{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:8px 10px;border-radius:8px;border:1px solid var(--line)}
+ul.checks li .t{min-width:0}
+ul.checks li.s1{background:var(--amber-soft);border-color:transparent}
+ul.checks li.s2{background:var(--green-soft);border-color:transparent}
+.state{font:inherit;font-size:.82rem;font-weight:bold;border-radius:99px;padding:6px 10px;min-width:7.6rem;cursor:pointer;border:2px solid var(--muted);background:transparent;color:var(--muted)}
+li.s1 .state{border-color:var(--amber);color:var(--amber)}
+li.s2 .state{border-color:var(--green);color:var(--green)}
+.ht,.win{display:inline-block;font-size:.7rem;font-weight:bold;letter-spacing:.05em;border-radius:4px;padding:0 5px;margin-left:6px;vertical-align:1px;white-space:nowrap}
+.ht{color:var(--ht);background:var(--ht-soft);border:1px solid var(--ht)}
+.win{color:var(--paper);background:var(--accent);border:1px solid var(--accent)}
+.btnrow{display:flex;flex-wrap:wrap;gap:8px}
+.btn{font:inherit;font-weight:bold;font-size:.9rem;border-radius:8px;padding:8px 12px;border:2px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer}
+.confirm{font-size:.9rem;background:var(--amber-soft);border-radius:8px;padding:10px 12px}
+
+.session{display:grid;gap:10px}
+.session .blk{display:grid;grid-template-columns:4.4rem 1fr;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.session .mins{font-weight:bold;color:var(--accent);font-variant-numeric:tabular-nums}
+.session .blk>div{min-width:0}
+.callout{border-left:6px solid var(--accent);background:var(--accent-soft);border-radius:8px;padding:12px 14px}
+.ladder{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-weight:bold}
+.ladder span{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:4px 10px}
+.cmd{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+.cmd div{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:.93rem}
+
+.fav{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-top:10px;display:grid;gap:6px}
+.fav .top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 12px;align-items:baseline}
+.fav .marks{font-size:.85rem;color:var(--muted);white-space:nowrap}
+.fav .say{background:var(--green-soft);border-radius:6px;padding:8px 10px;font-size:.95rem}
+.fav .trap{background:var(--amber-soft);border-radius:6px;padding:8px 10px;font-size:.95rem}
+.fav .where{font-size:.9rem}
+.fav .src{font-size:.78rem;color:var(--muted)}
+.tblwrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:480px){
+  .week{grid-template-columns:1fr;gap:2px}
+  .session .blk{grid-template-columns:1fr;gap:2px}
+  ul.checks li{grid-template-columns:1fr}
+  .state{justify-self:start}
+}
+</style>
+</head>
+<body>
+
+
+<nav class="tabs" role="tablist" aria-label="Sections">
+  <button class="tab" role="tab" id="tab-start" aria-controls="p-start" aria-selected="true">Start here</button>
+  <button class="tab" role="tab" id="tab-timeline" aria-controls="p-timeline" aria-selected="false">Timeline</button>
+  <button class="tab" role="tab" id="tab-checklist" aria-controls="p-checklist" aria-selected="false">Checklist</button>
+  <button class="tab" role="tab" id="tab-revise" aria-controls="p-revise" aria-selected="false">How to revise</button>
+  <button class="tab" role="tab" id="tab-exam" aria-controls="p-exam" aria-selected="false">Exam favourites</button>
+</nav>
+
+<main class="wrap">
+
+<!-- START HERE -->
+<section class="panel" id="p-start" role="tabpanel" aria-labelledby="tab-start">
+  <div class="hero">
+    <p class="label">Fundamental Chemistry · AQA Combined Science</p>
+    <h1>Your chemistry plan</h1>
+    <p class="lede">This plan takes you step by step from today to your two chemistry exams. Each week has one clear job, and everything you need for it is linked. The topics are in order, starting with the ones that come up most often in the exams.</p>
+    <div class="countdown" id="countdown"></div>
+    <div class="thisweek" id="thisweek"></div>
+  </div>
+
+  <h2>Your two chemistry exams</h2>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Exam</th><th>Date</th><th>Topics</th></tr></thead>
+    <tbody>
+      <tr><td><b>Chemistry Paper 1</b><br><span class="small">1 hour 15 minutes, 70 marks</span></td><td>Monday 17 May 2027, morning</td><td>1 Atomic structure and the periodic table · 2 Bonding and structure · 3 Quantitative chemistry · 4 Chemical changes · 5 Energy changes</td></tr>
+      <tr><td><b>Chemistry Paper 2</b><br><span class="small">1 hour 15 minutes, 70 marks</span></td><td>Tuesday 15 June 2027, morning</td><td>6 Rates and equilibrium · 7 Organic chemistry · 8 Chemical analysis · 9 The atmosphere · 10 Using resources</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small">Paper 2 can also use ideas from Topics 1, 2 and 3.</p>
+
+  <h2>How this plan works</h2>
+  <ol class="steps">
+    <li><div><b>Check the Timeline</b> to see this week's job.</div></li>
+    <li><div><b>Do three 30-minute sessions</b> on it, using the routine in How to revise and the links on the Checklist.</div></li>
+    <li><div><b>Update the Checklist</b> as you go, and practise that topic's questions in Exam favourites.</div></li>
+  </ol>
+  <div class="callout" style="margin-top:14px">Three 30-minute sessions on different days work better than one long session. If a week doesn't go to plan, pick up with this week's job.</div>
+
+  <h2>Where everything lives</h2>
+  <div class="res" id="resources"></div>
+</section>
+
+<!-- TIMELINE -->
+<section class="panel" id="p-timeline" role="tabpanel" aria-labelledby="tab-timeline" hidden>
+  <h1>Week by week to your exams</h1>
+  <p class="lede" style="margin-top:10px">Each week starts on a Monday and the highlighted row is this week. Tap a topic tag to open its links on the Checklist. Holidays are review weeks.</p>
+  <div id="timeline"></div>
+</section>
+
+<!-- CHECKLIST -->
+<section class="panel" id="p-checklist" role="tabpanel" aria-labelledby="tab-checklist" hidden>
+  <h1>Revision checklist</h1>
+  <p class="lede" style="margin-top:10px">Tap the button next to each statement to show how confident you feel. <span class="win">BIG WIN</span> statements come up often and are worth learning first. <span class="ht">HIGHER TIER</span> statements are only on the higher paper. Your progress saves on this device.</p>
+  <div class="overall" id="overall"></div>
+  <div id="checklist"></div>
+  <h2>Start again</h2>
+  <div id="resetbox"><button class="btn" id="reset" type="button">Clear all my ticks</button></div>
+</section>
+
+<!-- HOW TO REVISE -->
+<section class="panel" id="p-revise" role="tabpanel" aria-labelledby="tab-revise" hidden>
+  <h1>How to revise chemistry</h1>
+  <p class="lede" style="margin-top:10px">The quickest way to remember chemistry is to test yourself on it. Pulling an answer out of your memory makes it stick far better than reading it again, and the harder it is to remember, the stronger it sticks once you get it. Use this same routine every session.</p>
+
+  <h2>Getting started</h2>
+  <ol class="steps">
+    <li><div>Set a timer for 30 minutes.</div></li>
+    <li><div>Open this week's topic on the Fundamental Chemistry website.</div></li>
+    <li><div>Close your notes and Knowledge Organiser, then answer the first Warm-up question.</div></li>
+  </ol>
+
+  <h2>One 30-minute session</h2>
+  <div class="session">
+    <div class="blk"><div class="mins">5 min</div><div><b>Warm up from memory.</b> Answer three questions with your notes closed: one from this week's topic, one from last week and one from last month. Then mark them. If you got one wrong, that's your brain telling you it needs that one again.</div></div>
+    <div class="blk"><div class="mins">10 min</div><div><b>Learn one chunk.</b> Read one Learn box or one section of the Knowledge Organiser. Close it, then add the key points and diagrams to your summary sheet in your own words.</div></div>
+    <div class="blk"><div class="mins">5 min</div><div><b>Make flashcards.</b> Put each definition on a card, with the question on the front and the exact answer on the back.</div></div>
+    <div class="blk"><div class="mins">10 min</div><div><b>Test yourself.</b> Do the Quick Check, Fill the Blanks and one Exam-Style question with your notes closed. Mark it in a different colour, then add the mark scheme's words to your summary sheet.</div></div>
+  </div>
+
+  <h2>Make it stick</h2>
+  <ol class="steps">
+    <li><div><b>Spread it out.</b> Three 30-minute sessions on different days work much better than one long session.</div></li>
+    <li><div><b>Look, cover, write, check.</b> Always cover the answer before you write. Work through a small chunk at a time, such as one row of a table or a few flashcards. Use each card daily until you get it right three or four days running, then test it again a week or two later. PMT has ready-made flashcards for every topic.</div></li>
+    <li><div><b>Summary sheets.</b> One double-sided A4 sheet per topic. Read it aloud three times, then write it from memory three times, filling any gaps in a different colour.</div></li>
+    <li><div><b>Brain dump.</b> Once a week, pick an earlier topic and give yourself 3 minutes to write down everything you can remember about it. Then check it against your summary sheet or the Recap and Connect step on the website.</div></li>
+    <li><div><b>Mix it up later on.</b> From February, the exam practice weeks mix questions from different topics. It feels harder, and that is why it works.</div></li>
+  </ol>
+
+  <h2>In the exam</h2>
+  <div class="cmd">
+    <div><b>State, give, name</b><br>A short fact.</div>
+    <div><b>Describe</b><br>Say what happens or what you see.</div>
+    <div><b>Explain</b><br>Say why, using "because" or "so".</div>
+    <div><b>Compare</b><br>Write about both things.</div>
+    <div><b>Calculate</b><br>Show every step for method marks.</div>
+    <div><b>Evaluate</b><br>Points for and against, then a judgement with a reason.</div>
+  </div>
+  <p class="small" style="margin-top:10px">Use the marks as a guide: a 3-mark question needs three separate points.</p>
+
+  <h2>Getting help</h2>
+  <div class="ladder"><span>Brain</span>→<span>Board</span>→<span>Book</span>→<span>Buddy</span>→<span>Boss</span></div>
+  <p class="lede" style="margin-top:10px">Ask yourself what you already know, then check the website or your summary sheet, then your notes, then a friend, then Mr Hussain. Every lesson has a video and resources on Showbie. Bring any question you'd like to go through to a lesson or to after-school chemistry support.</p>
+</section>
+
+<!-- EXAM FAVOURITES -->
+<section class="panel" id="p-exam" role="tabpanel" aria-labelledby="tab-exam" hidden>
+  <h1>Exam favourites</h1>
+  <p class="lede" style="margin-top:10px">These question types appear in most years, so they are some of the most reliable marks on each paper. They are in the same order as your Timeline. The answers use the wording from real AQA Combined Science mark schemes, and each one shows which paper it comes from. The green box shows what gets the marks and the amber box shows what to watch out for.</p>
+  <div class="btnrow" style="margin-top:6px">
+    <button class="btn" type="button" data-jump="fav-p1">Paper 1</button>
+    <button class="btn" type="button" data-jump="fav-p2">Paper 2</button>
+    <button class="btn" type="button" data-jump="fav-rp">Required practicals</button>
+    <button class="btn" type="button" data-jump="fav-maths">Maths</button>
+  </div>
+  <h2 id="fav-p1">Paper 1</h2>
+  <div id="favs1"></div>
+  <h2 id="fav-p2">Paper 2</h2>
+  <div id="favs2"></div>
+
+  <h2 id="fav-rp">The six required practicals</h2>
+  <p class="lede">Questions about the required practicals make up at least 15% of the marks across Combined Science. Learn the method, the variables and how to make the results more accurate.</p>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Practical</th><th>Paper</th><th>What they ask</th></tr></thead>
+    <tbody>
+      <tr><td><b>Making a pure, dry soluble salt</b><br><span class="small">copper oxide + sulfuric acid</span></td><td>1</td><td>Warm the acid, add the base until it is in excess so all the acid reacts, filter, then heat gently to evaporate some water and leave to crystallise.</td></tr>
+      <tr><td><b>Electrolysis of aqueous solutions</b></td><td>1</td><td>Products at each electrode, inert (graphite) electrodes, gas tests, sources of error.</td></tr>
+      <tr><td><b>Temperature changes</b></td><td>1</td><td>Polystyrene cup and lid, stir, record the starting and highest temperature, repeat and calculate a mean.</td></tr>
+      <tr><td><b>Rates of reaction</b><br><span class="small">how concentration affects rate, by gas volume or the disappearing cross</span></td><td>2</td><td>Independent, dependent and control variables. Why the end point is subjective.</td></tr>
+      <tr><td><b>Chromatography</b></td><td>2</td><td>Pencil start line, spots above the solvent, lid on, mark the solvent front, R<sub>f</sub> value.</td></tr>
+      <tr><td><b>Water analysis and purification</b></td><td>2</td><td>Test pH, heat to constant mass to find dissolved solids, distil to purify, pure water boils at 100 °C.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small" style="margin-top:8px">Practise them in the Required Practicals section of the <a href="https://mrhussain-chem.github.io/Chemistry-Final-Push/" target="_blank" rel="noopener">Final Push pack</a> and on <a href="https://www.physicsandmathstutor.com/chemistry-revision/gcse-aqa/practical-skills" target="_blank" rel="noopener">PMT practical skills</a>.</p>
+
+  <h2 id="fav-maths">Maths you will need</h2>
+  <p class="lede">Calculations come up on both papers, and the same methods are used every year.</p>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Calculation</th><th>How</th></tr></thead>
+    <tbody>
+      <tr><td>Relative formula mass (M<sub>r</sub>)</td><td>Add up the relative atomic masses of every atom. Ca(OH)<sub>2</sub> = 40 + (16 + 1) × 2 = 74</td></tr>
+      <tr><td>Conservation of mass</td><td>Mass of reactants = mass of products. 10 g CaCO<sub>3</sub> makes 5.6 g CaO, so CO<sub>2</sub> = 4.4 g</td></tr>
+      <tr><td>Concentration</td><td>mass (g) ÷ volume (dm³). Change cm³ to dm³ by dividing by 1000. Units g/dm³</td></tr>
+      <tr><td>R<sub>f</sub> value</td><td>distance moved by spot ÷ distance moved by solvent. No units, always less than 1</td></tr>
+      <tr><td>Mean rate</td><td>quantity of product formed ÷ time taken. Units such as g/s or cm³/s</td></tr>
+      <tr><td>Relative atomic mass from isotopes</td><td>(mass × % of each isotope, added together) ÷ 100</td></tr>
+      <tr><td>Moles <span class="ht">HIGHER TIER</span></td><td>moles = mass ÷ M<sub>r</sub></td></tr>
+      <tr><td>Bond energies <span class="ht">HIGHER TIER</span></td><td>energy to break bonds minus energy released making bonds. A negative answer means exothermic</td></tr>
+      <tr><td>Gradient of a tangent <span class="ht">HIGHER TIER</span></td><td>Draw a tangent to the curve, then change in y ÷ change in x gives the rate at that time</td></tr>
+    </tbody>
+  </table></div>
+</section>
+</main>
+
+<script>
+(function(){
+var L = {
+  fc9:'https://mrhussain-chem.github.io/Fundamental-Chemistry-Y9/',
+  fc10:'https://mrhussain-chem.github.io/Y10-Fundamental-Chem/',
+  fc11:'https://mrhussain-chem.github.io/Y11-Fundamental-Chem/',
+  ko9:'https://mrhussain-chem.github.io/Y9-Knowledge-/',
+  quiz9:'https://mrhussain-chem.github.io/Y9-Summary-Quiz/',
+  ko10:'https://mrhussain-chem.github.io/Y10-Knowledge-Organiser/',
+  quiz10:'https://mrhussain-chem.github.io/Y10-Chem-Quiz/',
+  push:'https://mrhussain-chem.github.io/Chemistry-Final-Push/',
+  mock:'https://mrhussain-chem.github.io/Y11-COMB-Mock-Revision/',
+  pmt:'https://www.physicsandmathstutor.com/chemistry-revision/gcse-aqa/'
+};
+function a(key,text){return '<a href="'+L[key]+'" target="_blank" rel="noopener">'+text+'</a>';}
+function pmt(slug,text){return '<a href="'+L.pmt+slug+'/" target="_blank" rel="noopener">'+text+'</a>';}
+
+var RES = [
+  ['fc9','Fundamental Chemistry Year 9','Topics 1, 8, 9 and 10, with step-by-step learning and questions.'],
+  ['fc10','Fundamental Chemistry Year 10','Topics 2, 5 and 6, plus metals and extraction.'],
+  ['fc11','Fundamental Chemistry Year 11','Topics 3, 4 and 7: calculations, acids, electrolysis and organic.'],
+  ['ko9','Year 9 Knowledge Organiser','Key facts for building summary sheets.'],
+  ['ko10','Year 10 Knowledge Organiser','Key facts for building summary sheets.'],
+  ['push','Chemistry Final Push pack','Weekly activities, exam questions and the required practicals.'],
+  ['pmt','PMT AQA Chemistry','Definitions, notes, flashcards and past-paper questions by topic.']
+];
+var rh='';
+RES.forEach(function(r){rh+='<div class="item">'+a(r[0],r[1])+'<p>'+r[2]+'</p></div>';});
+rh+='<div class="item"><b>Showbie: Chemistry class</b><p>A video and resources for every lesson, sorted by week.</p></div>';
+document.getElementById('resources').innerHTML=rh;
+
+/* items: [text, higherTier, bigWin] */
+var T = [
+ {n:1,paper:1,name:'Atomic structure and the periodic table',
+  learn:[a('fc9','Fundamental Chemistry Year 9')+': Atomic Structure tab',a('ko9','Year 9 Knowledge Organiser'),a('push','Final Push')+': Weeks 1 and 3',pmt('atomic-structure-and-periodic-table','PMT notes, flashcards and questions'),a('quiz9','Year 9 Summary Quiz')],
+  items:[
+   ['I can define atom, element, compound and mixture',0,0],
+   ['I can write word equations and balance symbol equations',0,1],
+   ['I can choose filtration, crystallisation, distillation or chromatography to separate a mixture',0,0],
+   ['I can describe how the model of the atom changed: plum pudding, alpha scattering, nuclear model, Bohr\'s shells, Chadwick\'s neutron',0,0],
+   ['I know the relative charge and mass of protons, neutrons and electrons',0,1],
+   ['I can work out protons, neutrons and electrons from atomic number and mass number',0,1],
+   ['I can define isotopes and calculate relative atomic mass from percentage abundance',0,1],
+   ['I can write the electronic structure of the first 20 elements, for example 2,8,1',0,1],
+   ['I can explain how the periodic table is arranged and why Mendeleev left gaps',0,0],
+   ['I can describe Group 0, and the reactions and trend in Group 1 with water',0,0],
+   ['I can describe the trend in Group 7 and halogen displacement reactions',0,0],
+   ['I can explain the Group 1 and Group 7 trends using the outermost shell and distance from the nucleus',0,0]
+  ]},
+ {n:2,paper:1,name:'Bonding, structure and the properties of matter',
+  learn:[a('fc10','Fundamental Chemistry Year 10')+': Structure & Bonding and Metals tabs',a('ko10','Year 10 Knowledge Organiser'),a('push','Final Push')+': Week 2',pmt('bonding-structure-properties-of-matter','PMT notes, flashcards and questions'),a('mock','Y11 Mock Revision')+': Topic 2 mark scheme language'],
+  items:[
+   ['I can draw dot-and-cross diagrams for ionic compounds such as NaCl and MgO, with charges',0,1],
+   ['I can work out the charge on an ion from its group and write formulae of ionic compounds',0,0],
+   ['I can explain the properties of ionic compounds: high melting point, conduct when molten or dissolved',0,1],
+   ['I can draw dot-and-cross diagrams for H₂, Cl₂, HCl, H₂O, NH₃ and CH₄',0,0],
+   ['I can explain why small molecules have low melting points and do not conduct (weak intermolecular forces)',0,1],
+   ['I can describe the structure of diamond, graphite and silicon dioxide and link it to their properties',0,1],
+   ['I can describe graphene and fullerenes, including nanotubes',0,0],
+   ['I can describe metallic bonding and explain why metals conduct and can be bent',0,0],
+   ['I can explain why alloys are harder than pure metals',0,0],
+   ['I can use the particle model for solids, liquids and gases and use state symbols (s), (l), (g), (aq)',0,0],
+   ['I can explain the limitations of the particle model',1,0]
+  ]},
+ {n:3,paper:1,name:'Quantitative chemistry',
+  learn:[a('fc9','Fundamental Chemistry Year 9')+': Quantitative Chemistry tab',a('fc11','Fundamental Chemistry Year 11')+': Quantitative Chemistry tab',a('push','Final Push')+': Weeks 3 and 4',pmt('quantitative-chemistry','PMT notes, flashcards and questions')],
+  items:[
+   ['I can explain the law of conservation of mass and use it in calculations',0,1],
+   ['I can explain why a reaction seems to gain or lose mass (a gas escapes or is taken in)',0,0],
+   ['I can calculate relative formula mass (Mr), including formulae with brackets',0,1],
+   ['I can calculate concentration in g/dm³ and convert cm³ to dm³',0,1],
+   ['I can calculate a mean and describe uncertainty using the range of results',0,0],
+   ['I can use moles = mass ÷ Mr',1,0],
+   ['I can use reacting masses to balance an equation and identify a limiting reactant',1,0]
+  ]},
+ {n:4,paper:1,name:'Chemical changes',
+  learn:[a('fc11','Fundamental Chemistry Year 11')+': Acids, Bases & Neutralisation and Electrolysis tabs',a('fc10','Fundamental Chemistry Year 10')+': Metals and Extraction of Metals tabs',a('push','Final Push')+': Weeks 5, 6 and 8',pmt('chemical-changes','PMT notes, flashcards and questions'),a('ko10','Year 10 Knowledge Organiser')],
+  items:[
+   ['I can complete word equations for acids with metals, bases (alkalis and oxides) and carbonates',0,1],
+   ['I can name salts from hydrochloric, sulfuric and nitric acid',0,1],
+   ['I can describe how to make a pure, dry soluble salt (required practical)',0,1],
+   ['I can use the pH scale and know acids make H⁺ ions and alkalis make OH⁻ ions',0,0],
+   ['I can explain strong and weak acids, and that each pH unit is a factor of 10 in H⁺ concentration',1,0],
+   ['I can explain why an ionic compound must be molten or dissolved for electrolysis',0,1],
+   ['I can predict the products of electrolysis of molten and aqueous compounds',0,1],
+   ['I can describe the electrolysis of aqueous solutions (required practical)',0,0],
+   ['I can explain how aluminium is extracted, including cryolite and why the anodes are replaced',0,0],
+   ['I can write half equations at each electrode',1,0],
+   ['I can recall the reactivity series (K, Na, Li, Ca, Mg, C, Zn, Fe, H, Cu) and use it to predict reactions',0,0],
+   ['I can predict and explain displacement reactions',0,0],
+   ['I can explain oxidation and reduction as gain and loss of oxygen',0,0],
+   ['I can explain why some metals are extracted by reduction with carbon and others by electrolysis',0,1],
+   ['I can explain oxidation and reduction in terms of electrons (OIL RIG) and write ionic equations',1,0]
+  ]},
+ {n:5,paper:1,name:'Energy changes',
+  learn:[a('fc10','Fundamental Chemistry Year 10')+': Energy Changes tab',a('ko10','Year 10 Knowledge Organiser'),a('push','Final Push')+': Required Practical 4',pmt('energy-changes','PMT notes, flashcards and questions'),a('quiz10','Year 10 Summary Quiz')],
+  items:[
+   ['I can define exothermic and endothermic and give examples of each',0,1],
+   ['I can use temperature data to decide whether a reaction is exothermic or endothermic',0,1],
+   ['I can describe the temperature change practical, including the polystyrene cup and lid',0,1],
+   ['I can draw and label reaction profiles, including activation energy',0,1],
+   ['I can calculate the energy change of a reaction using bond energies',1,0]
+  ]},
+ {n:6,paper:2,name:'Rates of reaction and equilibrium',
+  learn:[a('fc10','Fundamental Chemistry Year 10')+': Rates of Reaction & Equilibrium tab',a('ko10','Year 10 Knowledge Organiser'),a('push','Final Push')+': Week 7 and Required Practical 3',pmt('rate-and-extent-of-chemical-change','PMT notes, flashcards and questions'),a('quiz10','Year 10 Summary Quiz')],
+  items:[
+   ['I can calculate mean rate from data or a graph, with units',0,1],
+   ['I can draw a tangent and calculate its gradient to find rate at a given time',1,0],
+   ['I can name the factors that change rate: temperature, concentration or pressure, surface area, catalyst',0,1],
+   ['I can say how each factor changes the rate, and explain it with more frequent successful collisions and activation energy',0,1],
+   ['I can explain how a catalyst works and show it on a reaction profile',0,0],
+   ['I can describe a rates practical and name its variables (required practical)',0,1],
+   ['I can describe reversible reactions, including hydrated copper sulfate',0,0],
+   ['I can explain equilibrium in a closed system',0,0],
+   ['I can predict how changing temperature, pressure or concentration moves an equilibrium',1,0]
+  ]},
+ {n:7,paper:2,name:'Organic chemistry',
+  learn:[a('fc11','Fundamental Chemistry Year 11')+': Organic Chemistry tab',a('push','Final Push')+': Week 9',pmt('organic-chemistry','PMT notes, flashcards and questions')],
+  items:[
+   ['I know crude oil is a mixture of hydrocarbons, mostly alkanes',0,0],
+   ['I can name and draw the first four alkanes and use CₙH₂ₙ₊₂',0,0],
+   ['I can describe fractional distillation of crude oil',0,1],
+   ['I can describe how boiling point, viscosity and flammability change with chain length',0,1],
+   ['I can write balanced equations for complete combustion',0,0],
+   ['I can describe cracking (catalytic and steam) and balance cracking equations',0,0],
+   ['I can describe the bromine water test for alkenes and explain why cracking is useful',0,1]
+  ]},
+ {n:8,paper:2,name:'Chemical analysis',
+  learn:[a('fc9','Fundamental Chemistry Year 9')+': Chemical Analysis tab',a('ko9','Year 9 Knowledge Organiser'),a('push','Final Push')+': Required Practical 5',pmt('chemical-analysis','PMT notes, flashcards and questions'),a('quiz9','Year 9 Summary Quiz')],
+  items:[
+   ['I can describe the tests for hydrogen, oxygen, carbon dioxide and chlorine',0,1],
+   ['I can calculate Rf values and use them to identify substances',0,1],
+   ['I can describe paper chromatography (required practical)',0,1],
+   ['I can define a pure substance and use melting point to test purity',0,0],
+   ['I can define a formulation and give examples',0,0]
+  ]},
+ {n:9,paper:2,name:'Chemistry of the atmosphere',
+  learn:[a('fc9','Fundamental Chemistry Year 9')+': Atmosphere & Greenhouse tab',a('ko9','Year 9 Knowledge Organiser'),pmt('chemistry-of-atmosphere','PMT notes, flashcards and questions')],
+  items:[
+   ['I know the composition of today\'s atmosphere (about four-fifths nitrogen, one-fifth oxygen)',0,0],
+   ['I can describe how the early atmosphere formed and how it changed over time',0,1],
+   ['I can explain how oxygen increased and carbon dioxide decreased',0,1],
+   ['I can name greenhouse gases and explain the greenhouse effect',0,1],
+   ['I can describe human activities that increase greenhouse gases and the possible effects of climate change',0,0],
+   ['I can describe carbon footprint and ways to reduce it',0,0],
+   ['I can describe pollutants from burning fuels (carbon monoxide, sulfur dioxide, oxides of nitrogen, particulates) and their effects',0,0]
+  ]},
+ {n:10,paper:2,name:'Using resources',
+  learn:[a('fc9','Fundamental Chemistry Year 9')+': Water & Resources and Recycling & LCA tabs',a('fc10','Fundamental Chemistry Year 10')+': Extraction of Metals tab (phytomining and bioleaching)',a('ko9','Year 9 Knowledge Organiser'),pmt('using-resources','PMT notes, flashcards and questions'),a('mock','Y11 Mock Revision')+': Topic 5 mark scheme language'],
+  items:[
+   ['I can explain what potable water is and why it is not pure',0,1],
+   ['I can describe how fresh water and sea water are made potable',0,1],
+   ['I can describe water analysis and purification (required practical)',0,1],
+   ['I can carry out and compare life cycle assessments',0,1],
+   ['I can explain finite and renewable resources and sustainable development',0,0],
+   ['I can describe how waste water and sewage are treated',0,0],
+   ['I can explain how reducing, reusing and recycling saves resources and energy',0,0],
+   ['I can describe phytomining and bioleaching',1,0]
+  ]}
+];
+
+var KEY='fc-catchup-v2', S={};
+try{S=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){S={};}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+var LABELS=['Not yet','Getting there','Got it'];
+
+function renderChecklist(){
+  var h='',paper=0;
+  T.forEach(function(t){
+    if(t.paper!==paper){paper=t.paper;h+='<h2>Paper '+paper+'</h2>';}
+    h+='<details class="topic" id="topic-'+t.n+'"><summary><h3>Topic '+t.n+': '+t.name+'</h3><span class="prog" id="prog-'+t.n+'"></span><div class="bar" id="bar-'+t.n+'"></div></summary><div class="tbody">';
+    h+='<div class="learn"><span class="label">Learn it here</span><ul>'+t.learn.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div><ul class="checks">';
+    var order=t.items.map(function(it,i){return i;}).sort(function(x,y){return (t.items[y][2]-t.items[x][2])||(x-y);});
+    order.forEach(function(i){
+      var it=t.items[i],id=t.n+'-'+i,s=S[id]||0;
+      h+='<li class="s'+s+'" data-id="'+id+'"><span class="t">'+it[0]+(it[2]?'<span class="win">BIG WIN</span>':'')+(it[1]?'<span class="ht">HIGHER TIER</span>':'')+'</span><button type="button" class="state" aria-label="Confidence: '+LABELS[s]+'. Tap to change">'+LABELS[s]+'</button></li>';
+    });
+    h+='</ul></div></details>';
+  });
+  document.getElementById('checklist').innerHTML=h;
+  updateProgress();
+}
+function counts(items,n){var g=0,am=0;items.forEach(function(_,i){var s=S[n+'-'+i]||0;if(s===2)g++;else if(s===1)am++;});return [g,am,items.length];}
+function bar(g,am,tot){return '<i class="g" style="width:'+(g/tot*100)+'%"></i><i class="a" style="width:'+(am/tot*100)+'%"></i>';}
+function updateProgress(){
+  var G=0,A=0,N=0;
+  T.forEach(function(t){var c=counts(t.items,t.n);G+=c[0];A+=c[1];N+=c[2];
+    var p=document.getElementById('prog-'+t.n);if(p)p.textContent='Got it '+c[0]+' of '+c[2];
+    var b=document.getElementById('bar-'+t.n);if(b)b.innerHTML=bar(c[0],c[1],c[2]);});
+  document.getElementById('overall').innerHTML='<div><b>Got it: '+G+' of '+N+' statements</b> <span class="small">· Getting there: '+A+'</span></div><div class="bar">'+bar(G,A,N)+'</div><div class="key"><span style="--c:var(--green)">Got it</span><span style="--c:var(--amber)">Getting there</span><span style="--c:var(--line)">Not yet</span></div>';
+}
+document.getElementById('checklist').addEventListener('click',function(e){
+  var b=e.target.closest('.state');if(!b)return;
+  var li=b.closest('li'),id=li.getAttribute('data-id'),s=((S[id]||0)+1)%3;
+  S[id]=s;save();li.className='s'+s;b.textContent=LABELS[s];b.setAttribute('aria-label','Confidence: '+LABELS[s]+'. Tap to change');updateProgress();
+});
+var rb=document.getElementById('resetbox');
+rb.addEventListener('click',function(e){
+  if(e.target.id==='reset'){rb.innerHTML='<div class="confirm">This clears every tick on this device. <div class="btnrow" style="margin-top:8px"><button class="btn" type="button" id="reset-yes">Yes, clear them</button><button class="btn" type="button" id="reset-no">Keep my ticks</button></div></div>';}
+  else if(e.target.id==='reset-yes'){S={};save();renderChecklist();rb.innerHTML='<p class="small">Cleared.</p><button class="btn" id="reset" type="button">Clear all my ticks</button>';}
+  else if(e.target.id==='reset-no'){rb.innerHTML='<button class="btn" id="reset" type="button">Clear all my ticks</button>';}
+});
+
+/* timeline. k: w study week, h holiday, x exam. e: end date for longer holidays */
+var PHASES=[
+ {name:'Phase 1',title:'Paper 1: most common topics first',when:'October to December',weeks:[
+  {d:'2026-10-12',k:'w',f:'Atoms',p:'Find your chemistry class on Showbie. Then learn protons, neutrons and electrons, electronic structure and isotopes. These come up on every Paper 1.',t:[1]},
+  {d:'2026-10-19',k:'w',f:'Chemistry maths',p:'Relative formula mass, conservation of mass and balancing equations. Calculations come up on both papers.',t:[3]},
+  {d:'2026-10-26',k:'h',f:'October half term: review',p:'Write your summary sheets for atoms and chemistry maths from memory and go through your flashcards.',t:[1,3]},
+  {d:'2026-11-02',k:'w',f:'Acids and making salts',p:'Acid reactions, naming salts, pH and the making salts practical.',t:[4]},
+  {d:'2026-11-09',k:'w',f:'Electrolysis',p:'What forms at each electrode, and the electrolysis practical.',t:[4]},
+  {d:'2026-11-16',k:'w',f:'Energy changes',p:'Exothermic and endothermic reactions, reaction profiles and the temperature practical.',t:[5]},
+  {d:'2026-11-23',k:'w',f:'Bonding',p:'Ionic and covalent bonding and dot-and-cross diagrams.',t:[2]},
+  {d:'2026-11-30',k:'w',f:'Structure and properties',p:'Why substances melt, boil and conduct the way they do: ionic compounds, small molecules, diamond, graphite and metals.',t:[2]},
+  {d:'2026-12-07',k:'w',f:'The periodic table',p:'Groups 1, 7 and 0, and how the model of the atom developed.',t:[1]},
+  {d:'2026-12-14',k:'w',f:'Reactivity and metals',p:'The reactivity series, displacement and extracting metals.',t:[4]},
+  {d:'2026-12-21',e:'2027-01-04',k:'h',f:'Christmas holiday: review',p:'Choose two Paper 1 topics and rewrite their summary sheets from memory. Keep your flashcards going.',t:[1,2,3,4,5]}
+ ]},
+ {name:'Phase 2',title:'Paper 2: most common topics first',when:'January to February',weeks:[
+  {d:'2027-01-04',k:'w',f:'Rates of reaction',p:'Rate graphs, collision theory and the rates practical.',t:[6]},
+  {d:'2027-01-11',k:'w',f:'Gas tests and chromatography',p:'The four gas tests, Rf values and the chromatography practical.',t:[8]},
+  {d:'2027-01-18',k:'w',f:'Crude oil',p:'Fractional distillation, alkanes, combustion and cracking.',t:[7]},
+  {d:'2027-01-25',k:'w',f:'Water and life cycle assessment',p:'Making water safe to drink, the water practical and comparing products.',t:[10]},
+  {d:'2027-02-01',k:'w',f:'The atmosphere',p:'How the atmosphere changed, greenhouse gases and pollutants.',t:[9]},
+  {d:'2027-02-08',k:'w',f:'Equilibrium and checklist gaps',p:'Reversible reactions and equilibrium, then any statements still on Not yet.',t:[6]},
+  {d:'2027-02-15',k:'h',f:'February half term: review',p:'Choose two Paper 2 topics and rewrite their summary sheets from memory.',t:[6,7,8,9,10]}
+ ]},
+ {name:'Phase 3',title:'Exam practice on both papers',when:'February to March',weeks:[
+  {d:'2027-02-22',k:'w',f:'Paper 1 favourites 1 to 7',p:'Answer each one, mark it and add the mark scheme words to your summary sheets.',t:[1,3,4]},
+  {d:'2027-03-01',k:'w',f:'Paper 1 favourites 8 to 14',p:'Same routine for the rest of the Paper 1 list.',t:[1,2,4,5]},
+  {d:'2027-03-08',k:'w',f:'Paper 2 favourites 1 to 7',p:'Same routine for Paper 2.',t:[6,7,8]},
+  {d:'2027-03-15',k:'w',f:'Paper 2 favourites 8 to 14',p:'Same routine for the rest of the Paper 2 list.',t:[9,10]},
+  {d:'2027-03-22',k:'w',f:'The six required practicals',p:'Method, variables and how to improve accuracy for each one. Practical questions make up at least 15% of Combined Science marks.',t:[],rp:true},
+  {d:'2027-03-29',e:'2027-04-12',k:'h',f:'Easter holiday: first full paper',p:'Do one Paper 1 past paper in 1 hour 15 minutes. Mark it, then redo the questions where you lost marks.',t:[1,2,3,4,5]}
+ ]},
+ {name:'Phase 4',title:'Paper 1 final push',when:'April to May',weeks:[
+  {d:'2027-04-12',k:'w',f:'Atoms, bonding and structure',p:'Final Push Weeks 1 and 2, plus past-paper questions.',t:[1,2]},
+  {d:'2027-04-19',k:'w',f:'Chemistry maths',p:'Final Push Weeks 3 and 4. A calculation in every session.',t:[3]},
+  {d:'2027-04-26',k:'w',f:'Acids and reactivity',p:'Final Push Weeks 5 and 6, and the making salts practical.',t:[4]},
+  {d:'2027-05-03',k:'w',f:'Electrolysis and energy',p:'Final Push Week 8 and Required Practicals 2 and 4.',t:[4,5]},
+  {d:'2027-05-10',k:'w',f:'Ready for Paper 1',p:'One more timed Paper 1, flashcards every day and a read-through of each summary sheet.',t:[1,2,3,4,5]},
+  {d:'2027-05-17',k:'x',f:'Chemistry Paper 1',p:'Monday morning. Bring a calculator, pencil and ruler.',t:[]}
+ ]},
+ {name:'Phase 5',title:'Paper 2 final push',when:'May to June',weeks:[
+  {d:'2027-05-17',k:'w',f:'Rates of reaction',p:'From the day after Paper 1. Final Push Week 7 and the rates practical.',t:[6],after:true},
+  {d:'2027-05-24',k:'w',f:'Crude oil, tests and chromatography',p:'Final Push Week 9 and Required Practical 5.',t:[7,8]},
+  {d:'2027-05-31',k:'h',f:'May half term: full paper',p:'Water, life cycle assessment and the atmosphere, then one Paper 2 past paper in 1 hour 15 minutes.',t:[9,10]},
+  {d:'2027-06-07',k:'w',f:'Ready for Paper 2',p:'Redo any questions where you lost marks, then go over Topics 1 to 3, which Paper 2 can also use.',t:[1,2,3,6,7,8,9,10]},
+  {d:'2027-06-15',k:'x',f:'Chemistry Paper 2',p:'Tuesday morning. Topics 6 to 10, plus ideas from Topics 1 to 3.',t:[]}
+ ]}
+];
+var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+var DAY=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+function D(s){var p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2]);}
+function fmt(d){return d.getDate()+' '+MON[d.getMonth()];}
+var today=new Date();today.setHours(0,0,0,0);
+var P1=D('2027-05-17'),P2=D('2027-06-15');
+function weekEnd(w){return w.e?D(w.e):new Date(D(w.d).getTime()+7*864e5);}
+function isNow(w){
+  var s=D(w.d);
+  if(w.k==='x')return +s===+today;
+  if(w.after){s=new Date(s.getTime()+864e5);}
+  if(w.d==='2027-05-10'){return today>=s&&today<P1;}
+  if(w.d==='2027-06-07'){return today>=s&&today<P2;}
+  return today>=s&&today<weekEnd(w);
+}
+var current=null;
+function tags(list){return list.map(function(n){return '<button type="button" class="tag" data-topic="'+n+'">Topic '+n+'</button>';}).join('');}
+function renderTimeline(){
+  var h='';
+  PHASES.forEach(function(ph){
+    h+='<div class="phase"><div class="phase-head"><span class="label">'+ph.name+'</span><h2 style="margin:0">'+ph.title+'</h2><span class="small">'+ph.when+'</span></div><ul class="weeks">';
+    ph.weeks.forEach(function(w){
+      var s=D(w.d),cls='week',now=isNow(w);
+      if(w.k==='h')cls+=' hol';
+      if(w.k==='x')cls+=' exam';
+      if(now){cls+=' now';current=w;}
+      else if(w.k!=='x'&&weekEnd(w)<=today)cls+=' past';
+      else if(w.k==='x'&&s<today)cls+=' past';
+      var when=w.k==='x'?(DAY[s.getDay()]+' '+fmt(s)+'<span>'+s.getFullYear()+'</span>'):((w.after?'18 '+MON[s.getMonth()]:fmt(s))+'<span>'+(w.k==='h'?'holiday':'week of')+'</span>');
+      h+='<li class="'+cls+'"'+(now?' id="nowrow"':'')+'><div class="when">'+when+'</div><div class="what"><b>'+w.f+'</b>'+(now?' <span class="tag now">This week</span>':'')+'<p>'+w.p+'</p>';
+      if(w.t.length)h+='<div>'+tags(w.t)+'</div>';
+      if(w.rp)h+='<div><button type="button" class="tag" data-go="fav-rp">Required practicals</button></div>';
+      h+='</div></li>';
+    });
+    h+='</ul></div>';
+  });
+  document.getElementById('timeline').innerHTML=h;
+}
+renderTimeline();
+renderChecklist();
+
+function daysTo(d){return Math.round((d-today)/864e5);}
+function cd(label,d,dateText){
+  var n=daysTo(d),txt;
+  if(n>13)txt=Math.floor(n/7)+' weeks';else if(n>1)txt=n+' days';else if(n===1)txt='Tomorrow';else if(n===0)txt='Today';else txt='Complete';
+  return '<div class="count"><span class="label">'+label+'</span><b>'+txt+'</b><span class="small">'+dateText+'</span></div>';
+}
+document.getElementById('countdown').innerHTML=cd('Paper 1',P1,'Monday 17 May 2027')+cd('Paper 2',P2,'Tuesday 15 June 2027');
+var tw=document.getElementById('thisweek');
+if(current){
+  tw.innerHTML='<span class="label">This week</span><h3 style="margin:4px 0 6px">'+current.f+'</h3><p style="margin:0 0 8px">'+current.p+'</p>'+tags(current.t);
+}else if(today<D('2026-10-12')){
+  tw.innerHTML='<span class="label">Starting soon</span><p style="margin:4px 0 0">Your plan starts on Monday 12 October.</p>';
+}else{
+  tw.innerHTML='<span class="label">Well done</span><p style="margin:4px 0 0">Both chemistry exams are complete.</p>';
+}
+
+/* favourites: [question, marks, topic, what gets the marks, watch out, source] in Timeline order. Answers follow AQA 8464 mark schemes and the Fundamental Chemistry sites. */
+var F1=[
+ ['Complete the table of protons, neutrons and electrons','2 to 6 marks',1,'Protons = atomic number. Neutrons = mass number minus atomic number. In an atom, electrons = protons. Protons and neutrons are in the nucleus; electrons are in shells (energy levels), written like 2,4.','Read carefully whether the question gives you the atomic number or the mass number.','AQA 1F June 2021 Q3.2, 1F June 2023 Q1.1'],
+ ['What is an isotope?','2 marks',1,'Atoms of the same element with the same number of protons but different numbers of neutrons.','"Different relative atomic mass" is not accepted, and "different mass numbers" gets no mark. Talk about protons and neutrons.','AQA 1H June 2021 Q1.4'],
+ ['Calculate Mr, a mass or a concentration','2 to 4 marks',3,'Write every step. Mr of H₂SO₄ = (1 × 2) + 32 + (4 × 16) = 98. For concentration, change cm³ to dm³ first (25 cm³ ÷ 1000 = 0.025 dm³), then mass ÷ volume: 0.30 g ÷ 0.025 dm³ = 12 g/dm³.','Marks are given for correct working even when the final answer is wrong, so always show it.','AQA 1H June 2023 Q2.2 and Q2.4, 1H June 2022 Q2.5'],
+ ['Balance an equation and add state symbols','1 to 2 marks',3,'Only change the big numbers in front of formulae, for example 4Na + O₂ → 2Na₂O. State symbols: (s) solid, (l) liquid, (g) gas, (aq) dissolved in water.','Keep the small numbers inside each formula exactly as they are.','AQA 1H June 2023 Q3.1, 1F June 2022 Q4.1'],
+ ['Acids, salts and pH','1 to 3 marks',4,'Acids produce hydrogen ions (H⁺). Acid + metal → salt + hydrogen. Acid + metal carbonate → salt + water + carbon dioxide, so you see fizzing, the solid disappearing, then fizzing stops and solid is left when it is in excess. Universal indicator turns from green to red in acid.','Only acid + metal makes hydrogen. Acid + base makes a salt and water.','AQA 1H June 2023 Q1, 1H June 2022 Q1.1, 1H June 2021 Q2'],
+ ['Describe how to make a pure, dry salt','6 marks',4,'Warm the acid. Add the copper oxide a little at a time, stirring, until some solid is left (excess), so all the acid reacts. Filter to remove the excess copper oxide. Pour the filtrate into an evaporating basin and heat gently, for example on a water bath, to evaporate some of the water. Leave to cool and crystallise.','Choose the right chemicals for the salt asked for. The top level needs the correct acid and base.','AQA 1H June 2021 Q2.6, 1H June 2018 Q3'],
+ ['Electrolysis: why it conducts and what forms','2 to 4 marks',4,'Ionic compounds conduct when molten or dissolved because the ions are free to move; in a solid the ions are fixed. Positive ions are attracted to the negative electrode. In a solution, hydrogen forms at the negative electrode if the metal is more reactive than hydrogen, such as sodium. At the positive electrode, a halogen forms if halide ions are present, otherwise oxygen.','It is the ions that move, not electrons. Positive ions go to the negative electrode.','AQA 1H June 2023 Q5, 1F June 2023 Q4.4, 1H June 2022 Q7.6'],
+ ['Exothermic, endothermic and reaction profiles','2 to 4 marks',5,'Temperature of the surroundings rises: exothermic, energy is transferred to the surroundings. Temperature falls: endothermic. On a reaction profile, label the reactants and products lines, the activation energy (reactants up to the peak) and the overall energy change. For exothermic, the products line is below the reactants line.','Say "energy is transferred to the surroundings" rather than "heat is given off".','AQA 1H June 2021 Q3.3 and Q3.4, Y10 Fundamental Chemistry'],
+ ['Ionic bonding and dot-and-cross diagrams','2 to 4 marks',2,'Ionic: the sodium atom loses one electron and the chlorine atom gains one electron, forming ions with full outer shells. Covalent: show one shared pair in the overlap for each bond and the other outer electrons around each atom. Dots, crosses or e⁻ are all fine.','Ionic bonding is a transfer of electrons, never sharing. Say the sodium atom loses an electron, not the sodium ion.','AQA 1H June 2018 Q2.2, 1H June 2023 Q3.2 and Q4.6'],
+ ['Explain a property using structure and bonding','2 to 4 marks',2,'Ionic compounds: strong electrostatic forces of attraction between oppositely charged ions, so large amounts of energy are needed to overcome them. Small molecules: weak forces between the molecules. Graphite and metals conduct because delocalised electrons move and carry charge through the structure. Alloys are harder because atoms of different sizes distort the layers, so the layers cannot slide.','When small molecules melt or boil, the forces between molecules are overcome. Saying the covalent bonds break is marked wrong.','AQA 1H June 2023 Q7, 1H June 2022 Q5.3 and Q7.5, 1H June 2021 Q4'],
+ ['Group 1: reactions and the trend','3 to 4 marks',1,'With water, Group 1 metals float, move, fizz, melt into a ball and disappear; potassium reacts faster with a lilac flame. Reactivity increases down the group: the atoms have more shells, so the outer electron is further from the nucleus, there is less attraction, and the outer electron is lost more easily.','Always link the outer (outermost) electron, its distance from the nucleus and the attraction.','AQA 1H June 2019 Q6.3, 1F June 2021 Q4.5, Y9 Fundamental Chemistry'],
+ ['Group 7: the trend and displacement','2 to 3 marks',1,'Reactivity decreases down the group. Lower down, atoms have more shells, so the outer shell is further from the nucleus and there is less attraction for an incoming electron, so an electron is gained less easily. A more reactive halogen displaces a less reactive one from a solution of its salt.','Mention the outer shell. Without it, the answer is capped at 2 marks.','AQA 1H June 2018 Q4.5, AQA specification 5.1.2.6'],
+ ['The model of the atom','2 to 4 marks',1,'Plum pudding model: a ball of positive charge with negative electrons embedded in it. Alpha particle scattering showed the mass is concentrated at the centre in a charged nucleus; most alpha particles passed straight through because the atom is mostly empty space. Bohr: electrons orbit the nucleus at specific distances. Chadwick provided evidence for neutrons.','Most alpha particles went straight through, not all of them.','AQA specification 5.1.1.3, Y9 Fundamental Chemistry'],
+ ['Reactivity, displacement and extraction','1 to 3 marks',4,'A more reactive metal displaces a less reactive one; if nothing happens, the metal added is less reactive. Metals less reactive than carbon are extracted by heating with carbon: the metal oxide is reduced because it loses oxygen. Metals more reactive than carbon, like aluminium, are extracted by electrolysis of aluminium oxide dissolved in cryolite.','Reduction is loss of oxygen. Name which substance loses the oxygen.','AQA 1H June 2019 Q5.1 and Q5.2, 1F June 2023 Q2.6 and Q5.8']
+];
+var F2=[
+ ['Calculate the rate from a graph','1 to 5 marks',6,'Mean rate = quantity ÷ time, for example 0.725 g ÷ 20 s = 0.036 g/s. The steepest line is the fastest reaction. Higher tier: draw a tangent at the time asked, then divide the change in y by the change in x.','Draw the tangent and show the numbers you read from it. Those steps earn marks on their own.','AQA 2F June 2022 Q4.6 and Q4.7, 2H June 2023 Q6.5 and Q6.7'],
+ ['Explain why a change speeds up a reaction','2 to 4 marks',6,'Start by stating the effect, then explain it. Temperature: increasing the temperature increases the rate of reaction, because the particles have more energy and move faster, so there are more frequent successful collisions, as more particles have energy equal to or greater than the activation energy. Concentration (or pressure of a gas): increasing it increases the rate of reaction, because there are more particles in the same volume, so there are more frequent successful collisions. Surface area: increasing it increases the rate of reaction, because more particles are exposed, so there are more frequent successful collisions. Catalyst: adding one increases the rate of reaction by providing a different pathway with a lower activation energy.','Always name the factor and say it increases the rate of reaction, then say "more frequent successful collisions". "More collisions" on its own gets no mark. For concentration and surface area, do not say the particles move faster or have more energy.','AQA 2H June 2021 Q1.5, 2H June 2018 Q5.8 and Q5.9, 2H June 2022 Q6.2, Y10 Fundamental Chemistry'],
+ ['Rates practical: variables and method','2 to 6 marks',6,'Independent variable: concentration of the acid. Control variables: temperature, volume of acid, length or surface area of magnesium. Measure the volume of gas collected in a gas syringe in a set time, then repeat with different concentrations.','The word "amount" gets no mark. Say mass, volume or concentration.','AQA 2H June 2021 Q1.1, 1F June 2023 Q6.6'],
+ ['Test for a gas','2 marks each',8,'Hydrogen: a burning splint at the mouth of the tube burns with a (squeaky) pop. Oxygen: a glowing splint relights. Carbon dioxide: limewater turns milky (cloudy). Chlorine: damp litmus paper is bleached white.','Hydrogen needs a burning splint and oxygen needs a glowing splint. Swapping them scores zero.','AQA 2H June 2023 Q3.4, Q4.6 and Q6.1, 2H June 2021 Q6.1'],
+ ['Chromatography and Rf','2 to 6 marks',8,'Rf = distance moved by the substance ÷ distance moved by the solvent, for example 4.77 ÷ 5.30 = 0.9. Draw the start line in pencil, keep the spots above the solvent level, put a lid on, and mark the solvent front. A pure substance gives one spot.','An ink start line would run, solvent above the line dissolves the spots, and no lid lets the solvent evaporate.','AQA 2H June 2023 Q2.4 and Q2.5, 2H June 2022 Q1.1'],
+ ['Fractional distillation and chain length','2 to 4 marks',7,'Crude oil is heated to vaporise it. The column is hotter at the bottom and cooler at the top. The fractions condense at different heights because they have different boiling points. Shorter chains have lower boiling points, are more flammable and are less viscous.','Say "weaker intermolecular forces", not "weaker bonds". Do not mix up fractional distillation with cracking.','AQA 2H June 2023 Q1.2 and Q3.2, 2H June 2019 Q7.1, Y11 Fundamental Chemistry'],
+ ['Cracking and the bromine water test','1 to 3 marks',7,'Cracking breaks long hydrocarbons into smaller, more useful molecules, using a catalyst or steam at a high temperature. Balance the carbons and hydrogens, for example C₆H₁₄ → C₂H₆ + 2C₂H₄. Alkenes turn bromine water from orange to colourless.','"Clear" gets no mark. Write "colourless".','AQA 2H June 2021 Q2.5, 2F June 2022 Q5.6 to Q5.8'],
+ ['Complete combustion','1 to 2 marks',7,'Hydrocarbon + oxygen → carbon dioxide + water. CH₄ + 2O₂ → CO₂ + 2H₂O.','Without enough oxygen you get carbon monoxide and soot instead.','AQA 2H June 2023 Q1.1, 2H June 2018 Q1.5'],
+ ['Making water potable','1 to 4 marks',10,'Pure water has no dissolved substances; potable water does, and is safe to drink. Ground water is filtered, then sterilised with chlorine, ozone or ultraviolet light to kill microbes. Sea water is distilled or treated by reverse osmosis, which need a lot of energy.','"Fractional distillation" is not accepted for sea water. Say distillation.','AQA 2H June 2018 Q3.3 and Q3.4, 2H June 2021 Q3.4 and Q3.5'],
+ ['Life cycle assessment: compare two products','4 to 6 marks',10,'Compare both products at each stage using numbers from the table, for example "paper bags produce about 2.3 times more carbon dioxide". Link each point to an effect, such as carbon dioxide causing global warming or crude oil being finite. Finish with a judgement that follows from your reasons.','The top level needs a judgement linked to your reasons. A list of facts on its own stays in the lower levels.','AQA 2H June 2022 Q4.5, 2H June 2018 Q1.8, Y9 Fundamental Chemistry'],
+ ['How the early atmosphere changed','2 to 6 marks',9,'Nitrogen increased from volcanoes. Oxygen increased because algae and plants photosynthesised. Carbon dioxide decreased because it was used in photosynthesis, dissolved in the oceans, formed carbonate sedimentary rocks and was locked in fossil fuels.','Answer for the time in the question. Before plants existed, carbon dioxide was removed by dissolving in the oceans, not by photosynthesis.','AQA 2H June 2018 Q2.5, 2H June 2022 Q5.1 and Q5.2, Y9 Fundamental Chemistry'],
+ ['Greenhouse effect, climate change and pollutants','1 to 4 marks',9,'Short wavelength radiation from the Sun reaches the Earth, which re-emits longer wavelength radiation; greenhouse gases absorb it, so the temperature increases. Effects of climate change include rising sea levels, flooding and extreme weather. Sulfur dioxide causes acid rain and breathing problems. Carbon monoxide is colourless and odourless. Particulates cause global dimming.','Acid rain, global dimming and the ozone layer are not effects of climate change, and they score zero there.','AQA 2H June 2023 Q1.5 to Q1.8, Q5.1 and Q5.2'],
+ ['Reversible reactions and equilibrium','1 to 2 marks',6,'⇌ means the reaction can go both ways. Adding water to white anhydrous copper sulfate turns it blue. Equilibrium is reached in a closed system when the forward and reverse reactions happen at the same rate. Higher tier: raising the temperature shifts the equilibrium in the endothermic direction.','At equilibrium the rates are equal, not the amounts.','AQA 2H June 2022 Q6.4 to Q6.6, 2H June 2021 Q3.1 and Q6.3'],
+ ['Finite resources and recycling','1 to 3 marks',10,'A finite resource will run out. Recycling or using renewable materials uses less energy, less coal or oil, and produces less waste.','Name exactly what is saved or reduced.','AQA 2H June 2021 Q5.5, 2F June 2022 Q5.9']
+];
+function renderFav(list,el){
+  var h='';
+  list.forEach(function(f,i){
+    h+='<div class="fav"><div class="top"><h3>'+(i+1)+'. '+f[0]+'</h3><span class="marks">'+f[1]+'</span></div><div class="say"><b>What gets the marks:</b> '+f[3]+'</div><div class="trap"><b>Watch out:</b> '+f[4]+'</div><div class="where">Practise: <button type="button" class="tag" data-topic="'+f[2]+'">Topic '+f[2]+' links</button> and the Exam-Style step on the matching Fundamental Chemistry tab.</div><div class="src">From: '+f[5]+'</div></div>';
+  });
+  document.getElementById(el).innerHTML=h;
+}
+renderFav(F1,'favs1');renderFav(F2,'favs2');
+
+var tabs=[].slice.call(document.querySelectorAll('.tab'));
+function show(id,noscroll){
+  tabs.forEach(function(t){var on=t.getAttribute('aria-controls')===id;t.setAttribute('aria-selected',on?'true':'false');document.getElementById(t.getAttribute('aria-controls')).hidden=!on;});
+  try{localStorage.setItem(KEY+'-tab',id);}catch(e){}
+  if(!noscroll)window.scrollTo(0,0);
+}
+tabs.forEach(function(t){t.addEventListener('click',function(){show(t.getAttribute('aria-controls'));if(t.id==='tab-timeline'){var r=document.getElementById('nowrow');if(r)r.scrollIntoView({block:'center'});}});});
+document.addEventListener('click',function(e){
+  var tp=e.target.closest('[data-topic]');
+  if(tp){var n=tp.getAttribute('data-topic');show('p-checklist',true);var d=document.getElementById('topic-'+n);if(d){d.open=true;d.scrollIntoView({block:'start'});window.scrollBy(0,-60);}return;}
+  var j=e.target.closest('[data-jump],[data-go]');
+  if(j){var id=j.getAttribute('data-jump')||j.getAttribute('data-go');show('p-exam',true);var el=document.getElementById(id);if(el){el.scrollIntoView({block:'start'});window.scrollBy(0,-60);}}
+});
+var hashMap={start:'p-start',timeline:'p-timeline',checklist:'p-checklist',revise:'p-revise',exam:'p-exam'};
+var hs=(location.hash||'').replace('#','');
+var saved=null;try{saved=localStorage.getItem(KEY+'-tab');}catch(e){}
+if(hashMap[hs])show(hashMap[hs],true);else if(saved&&document.getElementById(saved))show(saved,true);
+})();
+</script>
+
+</body>
+</html>
